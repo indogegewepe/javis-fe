@@ -151,11 +151,11 @@ export default function LoginPage() {
           identifier: message,
           password: message,
         });
+        setIsLoading(false);
       } else {
         console.error("Unknown error", error);
+        setIsLoading(false);
       }
-    } finally {
-      setIsLoading(false);
     }
   }
 
