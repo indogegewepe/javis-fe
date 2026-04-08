@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import axiosInstance from "../plugins/axios";
 import { useRouter } from "next/navigation";
 import { IconEyeOff, IconEye, IconSpiral } from "@tabler/icons-react";
@@ -15,7 +14,6 @@ type LoginErrorResponse = {
 
 function toResetTimestamp(resetTime: string | number): number | null {
   if (typeof resetTime === "number") {
-    // Backend numeric resetTime is treated as remaining seconds.
     return Date.now() + Math.max(resetTime, 0) * 1000;
   }
 
@@ -126,7 +124,7 @@ export default function LoginPage() {
         router.push("/dashboard");
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (error) {
         const data = error.response?.data as LoginErrorResponse | undefined;
         const message =
           data?.message ||
