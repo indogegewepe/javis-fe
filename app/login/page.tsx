@@ -12,6 +12,8 @@ type LoginErrorResponse = {
   resetTime?: string | number;
 };
 
+const INITIAL_NOW_MS = Date.now();
+
 function toResetTimestamp(resetTime: string | number): number | null {
   if (typeof resetTime === "number") {
     return Date.now() + Math.max(resetTime, 0) * 1000;
@@ -48,7 +50,7 @@ export default function LoginPage() {
   }>({});
   const [attemptsRemaining, setAttemptsRemaining] = useState<number | null>(null);
   const [resetAt, setResetAt] = useState<number | null>(null);
-  const [nowMs, setNowMs] = useState(Date.now());
+  const [nowMs, setNowMs] = useState(INITIAL_NOW_MS);
 
   useEffect(() => {
     if (!resetAt) return;
