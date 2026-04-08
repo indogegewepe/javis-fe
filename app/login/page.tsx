@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import axiosInstance from "../plugins/axios";
 import { useRouter } from "next/navigation";
 import { IconEyeOff, IconEye, IconSpiral } from "@tabler/icons-react";
@@ -126,7 +127,7 @@ export default function LoginPage() {
         router.push("/dashboard");
       }
     } catch (error) {
-      if (error) {
+      if (axios.isAxiosError(error)) {
         const data = error.response?.data as LoginErrorResponse | undefined;
         const message =
           data?.message ||
@@ -153,11 +154,11 @@ export default function LoginPage() {
           identifier: message,
           password: message,
         });
-        setIsLoading(false);
       } else {
         console.error("Unknown error", error);
-        setIsLoading(false);
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 

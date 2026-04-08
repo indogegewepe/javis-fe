@@ -5,10 +5,11 @@ import axiosInstance from "../plugins/axios";
 import { useRouter } from "next/navigation";
 import { IconSpiral } from "@tabler/icons-react";
 import DarkModeToggle from "../component/darkModeToggle";
+import type { AuthUser } from "../types/auth";
 
 export default function Home() {
   const router = useRouter();
-  const [res, setRes] = useState({});
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleLogout = async () => {
@@ -27,7 +28,7 @@ export default function Home() {
       try {
         const res = await axiosInstance.get("/api/auth/me");
         console.log(res.data.user);
-        setRes(res.data.user);
+        setUser(res.data.user as AuthUser);
       } catch (err) {
         console.error("User not authenticated", err);
       } finally {
@@ -45,7 +46,7 @@ export default function Home() {
       <div className="text-center h-screen flex items-center justify-center mx-8">
         <div className="w-2xl bg-gray-200 dark:bg-gray-800 p-8 rounded-lg shadow-lg border dark:border-gray-300/50 border-gray-700/50">
           <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Selamat Datang {res.username}!
+            Selamat Datang {user?.username ?? "User"}!
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
             Ini adalah halaman utama dashboard Anda.
