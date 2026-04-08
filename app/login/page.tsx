@@ -2,9 +2,9 @@
 
 import axiosInstance from "../plugins/axios";
 import { useRouter } from "next/navigation";
-import { IconEyeOff, IconEye } from "@tabler/icons-react";
+import { IconEyeOff, IconEye, IconSpiral } from "@tabler/icons-react";
 import { useState } from "react";
-import axios from "axios";
+import DarkModeToggle from "../component/darkModeToggle";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -62,7 +62,7 @@ export default function LoginPage() {
         router.push("/dashboard");
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (error) {
         const message =
           error.response?.data?.message ||
           "Email/Username atau password salah";
@@ -74,74 +74,73 @@ export default function LoginPage() {
       } else {
         console.error("Unknown error", error);
       }
-    } finally {
-      setIsLoading(false);
     }
   }
 
   return (
-    <div className="text-center h-screen flex items-center justify-center">
-      <div className="w-2xl bg-gray-500/40 p-8 rounded-lg shadow-lg border border-gray-300/50">
-        <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Login</h1>
-				<p className="text-gray-600 dark:text-gray-300">
-					Masuk untuk melanjutkan.
-				</p>
+    <>
+      <DarkModeToggle />
+      <div className="text-center h-screen flex items-center justify-center mx-8">
+        <div className="w-2xl bg-gray-200 dark:bg-gray-800 p-8 rounded-lg shadow-lg border dark:border-gray-300/50 border-gray-700/50">
+          <h1 className="text-xl font-bold text-blue-700 dark:text-blue-300 mb-2">Login</h1>
+          <p className="text-gray-600 dark:text-gray-300">
+            Masuk untuk melanjutkan.
+          </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-4 mt-6 width-full"
-        >
-          <div className="text-left">
-            <span>Email/Username</span>
-            <input
-              name="identifier"
-              className={`w-full px-4 py-3 rounded-lg border ${
-                errors.identifier ? "border-red-500" : "border-gray-300/50"
-              }`}
-              placeholder="Masukkan email atau username"
-            />
-            {errors.identifier && (
-              <p className="text-red-500 text-sm">
-                {errors.identifier}
-              </p>
-            )}
-          </div>
-
-          <div className="text-left">
-            <span>Password</span>
-            <div className="relative">
-              <input
-                type={passwordVisible ? "text" : "password"}
-                name="password"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.password ? "border-red-500" : "border-gray-300/50"
-                }`}
-                placeholder="Masukkan password"
-              />
-              <button
-                type="button"
-                onClick={() => setPasswordVisible(!passwordVisible)}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
-              >
-                {passwordVisible ? <IconEye /> : <IconEyeOff />}
-              </button>
-            </div>
-            {errors.password && (
-              <p className="text-red-500 text-sm">
-                {errors.password}
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="bg-blue-500 text-white py-2 px-4 rounded disabled:opacity-50"
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 mt-6 width-full"
           >
-            {isLoading ? "Loading..." : "Masuk"}
-          </button>
-        </form>
+            <div className="text-left">
+              <span className="text-gray-900 dark:text-stone-200">Email/Username</span>
+              <input
+                name="identifier"
+                className={`w-full px-4 py-3 rounded-lg border text-gray-900 dark:text-stone-200 ${
+                  errors.identifier ? "border-red-500 dark:border-red-700" : "dark:border-gray-300/50 border-gray-700/50"
+                }`}
+              />
+              {errors.identifier && (
+                <p className="text-red-500 dark:text-red-700 text-sm">
+                  {errors.identifier}
+                </p>
+              )}
+            </div>
+
+            <div className="text-left">
+              <span className="text-gray-900 dark:text-stone-200">Password</span>
+              <div className="relative">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  name="password"
+                  className={`w-full px-4 py-3 rounded-lg border text-gray-900 dark:text-stone-200 ${
+                    errors.password ? "border-red-500 dark:border-red-700" : "dark:border-gray-300/50 border-gray-700/50"
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-900 dark:text-stone-200"
+                >
+                  {passwordVisible ? <IconEye /> : <IconEyeOff />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-red-500 dark:text-red-700 text-sm">
+                  {errors.password}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="bg-blue-700 text-white dark:text-black dark:bg-blue-400 py-2 px-4 rounded disabled:opacity-50"
+            >
+              {isLoading ? <span className="flex items-center justify-center gap-2"><IconSpiral className="animate-spin" />Loading...</span>: "Masuk"}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
