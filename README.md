@@ -4,11 +4,18 @@ Javis Frontend adalah aplikasi web modern yang dibangun dengan Next.js 16, React
 
 ## 🚀 Fitur Utama
 
-- **Next.js 16** dengan App Router untuk routing yang efisien
-- **React 19** dengan TypeScript untuk type safety
-- **Tailwind CSS v4** untuk styling yang modern dan konsisten
-- **Axios** untuk HTTP client yang powerful
-- **Tabler Icons** untuk icon library yang lengkap
+- **Next.js 16**
+- **React 19**
+- **Tailwind CSS v4**
+- **Axios**
+- **Tabler Icons**
+
+## ✨ Fitur Tambahan yang Diimplementasikan
+
+- **Rate limit pada proses login**
+- **Dark mode toggle**
+- **Animasi loading saat login**
+- **Deploy ke platform publik**
 
 ## 🛠️ Tech Stack
 
