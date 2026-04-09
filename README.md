@@ -16,6 +16,8 @@ Javis Frontend adalah aplikasi web modern yang dibangun dengan Next.js 16, React
 - **Dark mode toggle**
 - **Animasi loading saat login**
 - **Deploy ke platform publik**
+- **HttpOnly + JWT**
+- **Hashing bcrypt**
 
 ## 🛠️ Tech Stack
 
