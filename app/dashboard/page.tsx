@@ -20,8 +20,6 @@ export default function Home() {
       router.push("/login");
     } catch (err) {
       console.error("Logout failed", err);
-    } finally {
-      setIsLoading(false);
     }
   };
 
