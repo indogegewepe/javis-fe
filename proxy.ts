@@ -3,24 +3,30 @@ import { NextResponse } from 'next/server';
 
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  const token =
+  const rawToken =
     request.cookies.get('accessToken')?.value ??
     request.cookies.get('access_token')?.value ??
     request.cookies.get('token')?.value;
+  const token = rawToken?.trim();
+  const hasToken = Boolean(token && token !== 'undefined' && token !== 'null');
+
+  const isLoginPath = pathname === '/login' || pathname === '/login/';
+  const isDashboardPath =
+    pathname === '/dashboard' || pathname.startsWith('/dashboard/');
 
   if (pathname === '/') {
-    if (token) {
+    if (hasToken) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (pathname.startsWith('/dashboard') && !token) {
+  if (isDashboardPath && !hasToken) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (pathname === '/login' && token) {
+  if (isLoginPath && hasToken) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
@@ -28,5 +34,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/login', '/dashboard/:path*'],
+  matcher: ['/', '/login/:path*', '/dashboard/:path*'],
 };

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import axiosInstance from "../plugins/axios";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconSpiral } from "@tabler/icons-react";
 import DarkModeToggle from "../component/darkModeToggle";
@@ -15,29 +15,33 @@ export default function Home() {
   const handleLogout = async () => {
     setIsLoading(true);
     try {
-      await axiosInstance.post("/api/auth/logout");
+      await axiosInstance.post("/api/logout");
       console.log("Logout successful");
       router.push("/login");
     } catch (err) {
       console.error("Logout failed", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axiosInstance.get("/api/auth/me");
-        console.log(res.data.user);
-        setUser(res.data.user as AuthUser);
+        const res = await axiosInstance.get<{ user?: AuthUser }>("/api/me");
+        const data = res.data;
+        console.log(data.user);
+        setUser((data.user ?? null) as AuthUser | null);
       } catch (err) {
         console.error("User not authenticated", err);
+        router.push("/login");
       } finally {
         setIsLoading(false);
       }
     };
 
     getUser();
-  }, []); 
+  }, [router]); 
 
 
   return (

@@ -3,7 +3,6 @@ import axios from "axios";
 const isServer = typeof window === "undefined";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080",
   withCredentials: true,
   headers: {
     Accept: "application/json",
@@ -15,10 +14,11 @@ axiosInstance.interceptors.request.use(
     if (isServer) {
       const { cookies } = await import("next/headers");
       const cookieStore = await cookies();
-      const token = cookieStore.get("accessToken")?.value;
+      const token = cookieStore.get("access_token")?.value;
 
-      if (token) {
-        config.headers?.set?.("Cookie", `accessToken=${token}`);
+      if (token && !config.headers?.Authorization) {
+        config.headers = config.headers ?? {};
+        config.headers.Authorization = `Bearer ${token}`;
       }
     }
     return config;

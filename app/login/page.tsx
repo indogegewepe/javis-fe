@@ -116,22 +116,15 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const res = await axiosInstance.post("/api/auth/login", {
-        identifier,
-        password,
-      });
+      await axiosInstance.post("/api/login", { identifier, password });
 
-      if (res.status === 200) {
-        setAttemptsRemaining(null);
-        setResetAt(null);
-        router.push("/dashboard");
-      }
+      setAttemptsRemaining(null);
+      setResetAt(null);
+      router.push("/dashboard");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const data = error.response?.data as LoginErrorResponse | undefined;
-        const message =
-          data?.message ||
-          "Email/Username atau password salah";
+        const message = data?.message || "Email/Username atau password salah";
 
         const backendAttempts = data?.attemptsRemaining;
         const backendResetTime = data?.resetTime;
@@ -156,6 +149,10 @@ export default function LoginPage() {
         });
       } else {
         console.error("Unknown error", error);
+        setErrors({
+          identifier: "Terjadi kesalahan jaringan",
+          password: "Terjadi kesalahan jaringan",
+        });
       }
     } finally {
       setIsLoading(false);
