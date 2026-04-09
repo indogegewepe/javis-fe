@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import axios from 'axios';
 import axiosInstance from '@/app/plugins/axios';
 
-import type { BackendMeResponse } from '@/types/auth';
+import type { BackendMeResponse } from '@/app/types/auth';
 
 export async function GET(req: Request) {
   try {

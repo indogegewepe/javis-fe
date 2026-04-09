@@ -11,18 +11,15 @@ export interface AuthUser {
   updated_at?: Date;
 }
 
-export interface BackendLoginResponse = {
+export interface BackendLoginResponse {
   access_token?: string;
   token?: string;
   message?: string;
   attemptsRemaining?: number;
   resetTime?: string | number;
-};
+}
 
 export interface BackendMeResponse {
-  id?: number,
-  username?: string,
-  email?: string,
-  iat?: number,
-  exp?: number
+  user?: AuthUser;
+  message?: string;
 }

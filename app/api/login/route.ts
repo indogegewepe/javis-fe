@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import axiosInstance from '@/app/plugins/axios';
-import type { LoginInput, BackendLoginResponse } from '@/types/auth';
+import type { LoginInput, BackendLoginResponse } from '@/app/types/auth';
 
 export async function POST(req: Request) {
   try {
