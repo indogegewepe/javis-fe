@@ -1,36 +1,12 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import axiosInstance from '@/app/plugins/axios';
-
-type LoginBody = {
-  identifier?: string;
-  email?: string;
-  username?: string;
-  password?: string;
-};
-
-type BackendLoginResponse = {
-  access_token?: string;
-  token?: string;
-  message?: string;
-  attemptsRemaining?: number;
-  resetTime?: string | number;
-};
-
-function getApiBaseUrl() {
-  const baseUrl = process.env.API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
-
-  if (!baseUrl) {
-    throw new Error('API_BASE_URL is not configured');
-  }
-
-  return baseUrl.replace(/\/+$/, '');
-}
+import type { LoginInput, BackendLoginResponse } from '@/types/auth';
 
 export async function POST(req: Request) {
   try {
-    const body = (await req.json()) as LoginBody;
-    const apiBaseUrl = getApiBaseUrl();
+    const body = (await req.json()) as LoginInput;
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     const backendRes = await axiosInstance.post<BackendLoginResponse>(
       `${apiBaseUrl}/api/auth/login`,

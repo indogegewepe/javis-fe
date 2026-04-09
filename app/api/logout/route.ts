@@ -1,19 +1,9 @@
 import { NextResponse } from 'next/server';
 import axiosInstance from '@/app/plugins/axios';
 
-function getApiBaseUrl() {
-  const baseUrl = process.env.API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
-
-  if (!baseUrl) {
-    throw new Error('API_BASE_URL is not configured');
-  }
-
-  return baseUrl.replace(/\/+$/, '');
-}
-
 export async function POST() {
   try {
-    const apiBaseUrl = getApiBaseUrl();
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     await axiosInstance.post(
       `${apiBaseUrl}/api/auth/logout`,
       {},
